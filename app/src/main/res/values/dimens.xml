@@ -1,0 +1,19 @@
+<resources>
+    <!--screen margins, per the Android Design guidelines. -->
+    <dimen name="xx_large">100dp</dimen>
+    <dimen name="x_large">75dp</dimen>
+    <dimen name="large">50dp</dimen>
+    <dimen name="medium">30dp</dimen>
+    <dimen name="small">25dp</dimen>
+    <dimen name="x_small">15dp</dimen>
+    <dimen name="xx_small">10dp</dimen>
+
+    <!-- text size, per the Android Design guidelines. -->
+    <dimen name="xx_large_text_size">100sp</dimen>
+    <dimen name="x_large_text_size">75sp</dimen>
+    <dimen name="large_text_size">50sp</dimen>
+    <dimen name="medium_text_size">30sp</dimen>
+    <dimen name="small_text_size">25sp</dimen>
+    <dimen name="x_small_text_size">15sp</dimen>
+    <dimen name="xx_small_text_size">10sp</dimen>
+</resources>
