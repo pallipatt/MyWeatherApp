@@ -1,5 +1,6 @@
 package com.ebay.myweatherapp.launchactivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class LaunchActivity extends AppCompatActivity implements LaunchActivityCallBack{
+public class LaunchActivity extends Activity implements LaunchActivityCallBack{
 
     @BindView(R.id.textViewPlaceName) TextView mPlaceName;
     @BindView(R.id.textViewWeatherCondition) TextView mWeatherCondition;
@@ -36,30 +37,9 @@ public class LaunchActivity extends AppCompatActivity implements LaunchActivityC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         ButterKnife.bind(this);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         mPresenter = new LaunchActivityPresenter(this);
-        getPlaceNameAutoPlace();
-    }
-
-    /**
-     * Googles Auto Complete Fragment to get Place object
-     */
-    public void getPlaceNameAutoPlace() {
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.i(TAG, "Place:" + place.getName());
-                mPresenter.fetchWeatherDetails(place.getLatLng());
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
+        mPresenter.getPlaceNameAutoPlace();
     }
 
     /**
