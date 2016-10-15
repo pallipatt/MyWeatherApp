@@ -37,7 +37,6 @@ public class LaunchActivity extends Activity implements LaunchActivityCallBack{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         ButterKnife.bind(this);
-        //getSupportActionBar().hide();
         mPresenter = new LaunchActivityPresenter(this);
         mPresenter.getPlaceNameAutoPlace();
     }

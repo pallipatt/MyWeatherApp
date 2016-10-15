@@ -3,7 +3,6 @@ package com.ebay.myweatherapp.util;
 import android.app.Application;
 import android.text.TextUtils;
 
-import com.activeandroid.ActiveAndroid;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -15,11 +14,8 @@ import com.android.volley.toolbox.Volley;
  */
 public class AppController extends Application {
 
-
     public static final String TAG = AppController.class.getSimpleName();
-
     private RequestQueue mRequestQueue;
-
     private static AppController mInstance;
 
     @Override

@@ -3,7 +3,6 @@ package com.ebay.myweatherapp.models;
 public class Weather {
     private String main;
 
-
     public String getMain() {
         return main;
     }

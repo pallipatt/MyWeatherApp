@@ -97,6 +97,9 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
         Log.i(TAG, "error connecting the client to the service");
     }
 
+    /**
+     * Volley Networking
+     */
     public void fetchWeatherDetails(LatLng locationLatLng) {
                 /* Json request object. */
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
