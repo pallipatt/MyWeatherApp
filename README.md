@@ -1,8 +1,7 @@
         MyWeatherApp
- My weather App is an Android application where users can see the the weather of his current location.
- User can also search for a place to see the current weather.
- Search is auto complete, so its easy for the user to select his search. Search works with Zip Code, City name , place name, or even you can type a building number!
- It will auto populate with suggested address. This App is desined in MVP Architecture
+ My weather App is an Android application where users can see the weather of his current location.
+ User can also search for different places to see the current weather of that perticular location.
+ Search is auto complete, so its easy for the user to select his search place fast. Search works with Zip Code, City name, place name or address. It will auto populate with suggestions. This App is desined in MVP Architecture. The optimal phone screen size for this app is 4.95 inches. 
  
 Installation and Getting Started
 1. you will need an android phone with a Android 4.3 (JELLY_BEAN) or greater.
