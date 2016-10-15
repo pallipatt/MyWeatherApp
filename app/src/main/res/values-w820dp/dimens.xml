@@ -2,5 +2,21 @@
     <!-- Example customization of dimensions originally defined in res/values/dimens.xml
          (such as screen margins) for screens with more than 820dp of available width. This
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
-    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <!--screen margins, per the Android Design guidelines. -->
+    <dimen name="xx_large">2000dp</dimen>
+    <dimen name="x_large">1000dp</dimen>
+    <dimen name="large">500dp</dimen>
+    <dimen name="medium">150dp</dimen>
+    <dimen name="small">130dp</dimen>
+    <dimen name="x_small">64dp</dimen>
+    <dimen name="xx_small">16dp</dimen>
+
+    <!-- text size, per the Android Design guidelines. -->
+    <dimen name="xx_large_text_size">2000sp</dimen>
+    <dimen name="x_large_text_size">1000sp</dimen>
+    <dimen name="large_text_size">500sp</dimen>
+    <dimen name="medium_text_size">150sp</dimen>
+    <dimen name="small_text_size">130sp</dimen>
+    <dimen name="x_small_text_size">64sp</dimen>
+    <dimen name="xx_small_text_size">16sp</dimen>
 </resources>

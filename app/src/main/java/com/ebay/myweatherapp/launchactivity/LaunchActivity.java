@@ -1,64 +1,77 @@
 package com.ebay.myweatherapp.launchactivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.ebay.myweatherapp.R;
+import com.ebay.myweatherapp.models.WeatherForecast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
-public class LaunchActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
+public class LaunchActivity extends AppCompatActivity implements LaunchActivityCallBack{
+
+    @BindView(R.id.textViewPlaceName) TextView mPlaceName;
+    @BindView(R.id.textViewWeatherCondition) TextView mWeatherCondition;
+    @BindView(R.id.textViewTemperature) TextView mTemperature;
 
     private static final String TAG = LaunchActivity.class.getSimpleName();
-    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private LaunchActivityPresenter mPresenter;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.googlePlayServices();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        ButterKnife.bind(this);
         getSupportActionBar().hide();
+        mPresenter = new LaunchActivityPresenter(this);
+        getPlaceNameAutoPlace();
+    }
 
+    /**
+     * Googles Auto Complete Fragment to get Place object
+     */
+    public void getPlaceNameAutoPlace() {
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName());
+                Log.i(TAG, "Place:" + place.getName());
+                mPresenter.fetchWeatherDetails(place.getLatLng());
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
     }
 
+    /**
+     * Updating UI with current weather
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.i(TAG, "Place: " + place.getName());
-                Toast.makeText(this, place.getName(),
-                        Toast.LENGTH_LONG).show();
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
-                Log.i(TAG, status.getStatusMessage());
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }
+    public void showWeatherDetails(WeatherForecast weatherForecast) {
+        mPlaceName.setText(weatherForecast.getName());
+        mTemperature.setText(weatherForecast.getMain().getTemp());
+        mWeatherCondition.setText(weatherForecast.getWeather()[0].getMain());
     }
 
 }
+
+

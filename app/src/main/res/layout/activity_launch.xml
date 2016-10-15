@@ -13,13 +13,12 @@
         android:id="@+id/fragment_linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        >
 
         <fragment
             android:id="@+id/place_autocomplete_fragment"
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-            android:layout_width="match_parent"
+            android:layout_width="372dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -28,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large"
-        android:text="PlaceName"
         android:textSize="@dimen/small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -40,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xx_small"
-        android:text="rain"
         android:textSize="@dimen/x_small"
         android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="@+id/textViewPlaceName"
@@ -52,7 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xx_small"
-        android:text="72"
         android:textSize="@dimen/small"
         android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="@+id/textViewWeatherCondition"
