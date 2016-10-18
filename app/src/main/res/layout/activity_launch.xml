@@ -7,13 +7,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_bright"
     tools:context=".launch_activity.LaunchActivity">
-
     <LinearLayout
         android:id="@+id/fragment_linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/xx_large"
+        android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
         <fragment
@@ -21,10 +20,6 @@
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@+id/fragment_linearLayout"
-            app:layout_constraintRight_toRightOf="@+id/fragment_linearLayout"
-            app:layout_constraintTop_toTopOf="@+id/fragment_linearLayout"
-            android:layout_centerInParent="true"
             />
     </LinearLayout>
 
@@ -37,9 +32,7 @@
         android:textSize="@dimen/small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="abc"
         android:layout_centerInParent="true"
-
         app:layout_constraintTop_toBottomOf="@+id/fragment_linearLayout" />
 
     <TextView
@@ -51,8 +44,8 @@
         android:textSize="@dimen/x_small"
         app:layout_constraintLeft_toLeftOf="@+id/textViewPlaceName"
         app:layout_constraintRight_toRightOf="@+id/textViewPlaceName"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPlaceName"
-        android:text="12"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewPlaceName" />
+
     <TextView
         android:id="@+id/textViewTemperature"
         android:layout_width="wrap_content"
@@ -61,10 +54,17 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/small"
         android:layout_centerInParent="true"
-        android:text="qw"
         app:layout_constraintLeft_toLeftOf="@+id/textViewWeatherCondition"
         app:layout_constraintRight_toRightOf="@+id/textViewWeatherCondition"
         app:layout_constraintTop_toBottomOf="@+id/textViewWeatherCondition" />
 
+    <ImageView
+        android:layout_width="@dimen/x_small"
+        android:layout_height="@dimen/x_small"
+        app:srcCompat="@drawable/ic_degree_white_24"
+        android:id="@+id/imageView"
+        android:layout_marginStart="@dimen/xx_small"
+        app:layout_constraintLeft_toRightOf="@+id/textViewTemperature"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTemperature" />
 
 </android.support.constraint.ConstraintLayout>
