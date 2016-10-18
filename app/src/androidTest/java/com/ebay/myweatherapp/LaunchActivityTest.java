@@ -4,7 +4,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.ebay.myweatherapp.launchactivity.LaunchActivity;
+import com.ebay.myweatherapp.launch_activity.LaunchActivity;
 
 import org.junit.Rule;
 import org.junit.Test;

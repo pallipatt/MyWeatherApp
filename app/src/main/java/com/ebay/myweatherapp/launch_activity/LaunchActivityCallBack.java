@@ -1,4 +1,4 @@
-package com.ebay.myweatherapp.launchactivity;
+package com.ebay.myweatherapp.launch_activity;
 
 import com.ebay.myweatherapp.models.WeatherForecast;
 

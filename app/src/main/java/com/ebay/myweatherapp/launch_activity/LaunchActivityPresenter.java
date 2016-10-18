@@ -1,21 +1,18 @@
-package com.ebay.myweatherapp.launchactivity;
+package com.ebay.myweatherapp.launch_activity;
 
 import android.app.Activity;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.ebay.myweatherapp.R;
 import com.ebay.myweatherapp.models.WeatherForecast;
-import com.ebay.myweatherapp.util.AppController;
 import com.ebay.myweatherapp.util.NetworkConstants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,7 +24,14 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LaunchActivityPresenter extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
@@ -35,6 +39,9 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
     private static final String TAG = LaunchActivityPresenter.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private Activity mContext;
+    private static final int READ_TIMEOUT = 10000;
+    private static final int CONNECTION_TIMEOUT = 10000;
+    private static final int BUFFER = 1024;
 
     public LaunchActivityPresenter(Activity mContext) {
         this.mContext = mContext;
@@ -54,7 +61,7 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
     }
 
     /**
-     * Googles Auto Complete Fragment to get Place object
+     * Google's Auto Complete Fragment to get Place object
      */
     public void getPlaceNameAutoPlace() {
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
@@ -69,11 +76,10 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
 
             @Override
             public void onError(Status status) {
-                Log.i(TAG, "An error occurred: " + status);
+                Log.d(TAG, "An error occurred: " + status);
             }
         });
     }
-
 
     public void googlePlayServices() {
         mGoogleApiClient.connect();
@@ -89,48 +95,31 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
 
     @Override
     public void onConnectionSuspended(int i) {
+        Toast.makeText(mContext, R.string.Connection_Error, Toast.LENGTH_LONG).show();
         Log.i(TAG, i + "Connection temporarily disconnected");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(mContext, R.string.Connection_Error, Toast.LENGTH_LONG).show();
         Log.i(TAG, "error connecting the client to the service");
     }
 
     /**
-     * Volley Networking
+     * Networking
+     * Json request object.
      */
     public void fetchWeatherDetails(LatLng locationLatLng) {
-                /* Json request object. */
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getUriString(locationLatLng), null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-                WeatherForecast weatherForecast = parseToWeatherInfo(response);
-                ((LaunchActivityCallBack) mContext).showWeatherDetails(weatherForecast);
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.getMessage());
-            }
-        });
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
+        new JSONParser().execute(getUriString(locationLatLng));
     }
 
     private WeatherForecast parseToWeatherInfo(JSONObject response) {
         try {
             return new Gson().fromJson(response.toString(), WeatherForecast.class);
         } catch (Exception e) {
+            Log.d(TAG,e+"");
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -156,4 +145,64 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
         return url;
     }
 
+    /**
+     * Uses AsyncTask to create a task away from the main UI thread. This task takes a
+     * URL string and uses it to create an HttpUrlConnection. Once the connection
+     * has been established, the AsyncTask downloads the contents
+     */
+
+    private class JSONParser extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                return downloadUrl(urls[0]);
+            } catch (IOException e) {
+                Log.d(TAG, e + "");
+                return null;
+            } catch (JSONException e) {
+                Log.d(TAG, e + "");
+                return null;
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            Log.i(TAG, result + "");
+            WeatherForecast weatherForecast = parseToWeatherInfo(result);
+            ((LaunchActivityCallBack) mContext).showWeatherDetails(weatherForecast);
+        }
+    }
+
+    // Given a URL, establishes an HttpUrlConnection and retrieves JSON OBJECT
+    private JSONObject downloadUrl(String currentUrl) throws IOException, JSONException {
+
+            URL url = new URL(currentUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(READ_TIMEOUT);
+            connection.setConnectTimeout(CONNECTION_TIMEOUT);
+            connection.setDoInput(true);
+
+            // Starts the query
+            connection.connect();
+            int response = connection.getResponseCode();
+            connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            char[] buffer = new char[BUFFER];
+            String jsonString = new String();
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+            jsonString = sb.toString();
+
+            Log.i(TAG, "The response is:" + new JSONObject(jsonString));
+            return new JSONObject(jsonString);
+    }
 }
