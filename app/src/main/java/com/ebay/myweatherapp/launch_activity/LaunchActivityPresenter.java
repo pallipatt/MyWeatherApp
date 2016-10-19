@@ -12,7 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ebay.myweatherapp.R;
-import com.ebay.myweatherapp.models.WeatherForecast;
+import com.ebay.myweatherapp.models.WeatherForecastIssue;
 import com.ebay.myweatherapp.util.NetworkConstants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -113,9 +113,9 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
         new JSONParser().execute(getUriString(locationLatLng));
     }
 
-    private WeatherForecast parseToWeatherInfo(JSONObject response) {
+    private WeatherForecastIssue parseToWeatherInfo(JSONObject response) {
         try {
-            return new Gson().fromJson(response.toString(), WeatherForecast.class);
+            return new Gson().fromJson(response.toString(), WeatherForecastIssue.class);
         } catch (Exception e) {
             Log.d(TAG,e+"");
             e.printStackTrace();
@@ -172,7 +172,7 @@ public class LaunchActivityPresenter extends AppCompatActivity implements
         @Override
         protected void onPostExecute(JSONObject result) {
             Log.i(TAG, result + "");
-            WeatherForecast weatherForecast = parseToWeatherInfo(result);
+            WeatherForecastIssue weatherForecast = parseToWeatherInfo(result);
             ((LaunchActivityCallBack) mContext).showWeatherDetails(weatherForecast);
         }
     }
