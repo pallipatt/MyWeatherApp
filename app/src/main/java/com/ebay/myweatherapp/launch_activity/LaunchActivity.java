@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.ebay.myweatherapp.R;
-import com.ebay.myweatherapp.models.WeatherForeCast;
+import com.ebay.myweatherapp.models.WeatherForeCastTOcheck;
 
 public class LaunchActivity extends Activity implements LaunchActivityCallBack {
 
@@ -40,7 +40,7 @@ public class LaunchActivity extends Activity implements LaunchActivityCallBack {
      * Updating UI with current weather
      */
     @Override
-    public void showWeatherDetails(WeatherForeCast weatherForecast) {
+    public void showWeatherDetails(WeatherForeCastTOcheck weatherForecast) {
         mPlaceName.setText(weatherForecast.getName());
         mTemperature.setText(weatherForecast.getMain().getTemp());
         mWeatherCondition.setText(weatherForecast.getWeather()[0].getMain());

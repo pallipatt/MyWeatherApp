@@ -1,6 +1,6 @@
 package com.ebay.myweatherapp.models;
 
-public class WeatherForeCast {
+public class WeatherForeCastTOcheck {
     private String name;
     private Weather[] weather;
     private Main main;
