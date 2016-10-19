@@ -1,9 +1,9 @@
 package com.ebay.myweatherapp.launch_activity;
 
-import com.ebay.myweatherapp.models.WeatherForecastIssue;
+import com.ebay.myweatherapp.models.WeatherForeCast;
 
 public interface LaunchActivityCallBack {
 
     //  void displayLocation(LatLng latLng);
-    void showWeatherDetails(WeatherForecastIssue weatherForecast);
+    void showWeatherDetails(WeatherForeCast weatherForecast);
 }
